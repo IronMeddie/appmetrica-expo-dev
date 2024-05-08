@@ -1,9 +1,7 @@
 package io.appmetrica.analytics.expo
 
-import android.util.Log
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import io.appmetrica.analytics.AppMetricaConfig
 import io.appmetrica.analytics.AppMetrica
 
 class AppMetricaModule : Module() {
@@ -16,43 +14,7 @@ class AppMetricaModule : Module() {
     // The module will be accessible from `requireNativeModule('AppMetrica')` in JavaScript.
     Name("AppMetrica")
     Function("activate") { config: io.appmetrica.analytics.expo.AppMetricaConfig ->
-      Log.d("checkCode", "Function activate")
-      val builder = AppMetricaConfig.newConfigBuilder(config.apiKey)
-        .apply {
-          config.anrMonitoringTimeout?.let { withAnrMonitoringTimeout(it) }
-          config.appBuildNumber?.let { withAppBuildNumber(it) }
-          config.crashReporting?.let { withCrashReporting(it) }
-          config.handleFirstActivationAsUpdate?.let { handleFirstActivationAsUpdate(it) }
-          config.anrMonitoring?.let { withAnrMonitoring(it) }
-          config.appOpenTrackingEnabled?.let { withAppOpenTrackingEnabled(it) }
-          config.appVersion?.let { withAppVersion(it) }
-          config.customHosts?.let { withCustomHosts(it) }
-          config.dataSendingEnabled?.let { withDataSendingEnabled(it) }
-          config.deviceType?.let { withDeviceType(it.value) }
-          config.dispatchPeriodSeconds?.let { withDispatchPeriodSeconds(it) }
-          config.locationTracking?.let { withLocationTracking(it) }
-          config.maxReportsCount?.let { withMaxReportsCount(it) }
-          config.maxReportsInDatabaseCount?.let { withMaxReportsInDatabaseCount(it) }
-          config.nativeCrashReporting?.let { withNativeCrashReporting(it) }
-          config.preloadInfo?.let { withPreloadInfo(it.toPreloadInfo()) }
-          config.revenueAutoTrackingEnabled?.let { withRevenueAutoTrackingEnabled(it) }
-          config.withSessionTimeout?.let { withSessionTimeout(it) }
-          config.errorEnvironmentValue?.forEach {
-            withErrorEnvironmentValue(it.key,it.value)
-          }
-          if (config.withLogs != null && config.withLogs != false) {
-            withLogs()
-          }
-          config.additionalConfig?.forEach {
-            withAdditionalConfig(it.key, it.value)
-          }
-          config.appEnvironmentValue?.forEach {
-            withAppEnvironmentValue(it.key,it.value)
-          }
-          withLocation(config.location?.toLocation())
-          withUserProfileID(config.withUserProfileID)
-        }.build()
-      AppMetrica.activate(appContext.reactContext?.applicationContext ?: throw ApplicationNotAttached(), builder)
+      AppMetrica.activate(appContext.reactContext?.applicationContext ?: throw ApplicationNotAttached(), config.toConfig())
     }
 
     Function("reportEvent") { name: String, params: String? ->
