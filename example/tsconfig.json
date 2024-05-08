@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "expo-appmetrica": ["../src/index"],
+      "expo-appmetrica/*": ["../src/*"]
+    }
+  }
+}
