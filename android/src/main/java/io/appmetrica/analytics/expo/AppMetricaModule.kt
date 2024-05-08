@@ -63,6 +63,38 @@ class AppMetricaModule : Module() {
       AppMetrica.sendEventsBuffer()
     }
 
+    Function("clearAppEnvironment") {
+      AppMetrica.clearAppEnvironment()
+    }
+
+    Function("putAppEnvironmentValue") { key: String, value: String? ->
+      AppMetrica.putAppEnvironmentValue(key, value)
+    }
+
+    Function("getDeviceId") { key: String, value: String? ->
+      AppMetrica.getDeviceId(appContext.reactContext?.applicationContext ?: throw ApplicationNotAttached())
+    }
+
+    Function("resumeSession") {
+      AppMetrica.resumeSession(appContext.currentActivity)
+    }
+
+    Function("pauseSession") {
+      AppMetrica.pauseSession(appContext.currentActivity)
+    }
+
+    Function("reportAppOpen") { link: String ->
+      AppMetrica.reportAppOpen(link)
+    }
+
+    Function("reportError") { identifier: String, message: String? ->
+      AppMetrica.reportError(identifier,message)
+    }
+
+    Function("setDataSendingEnabled") { enabled: Boolean ->
+      AppMetrica.setDataSendingEnabled(enabled)
+    }
+
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
 //    Constants(
 //      "PI" to Math.PI
