@@ -9,11 +9,13 @@ export type AppMetricaViewProps = {
 export type AppmetricaConfig = {
   apiKey: string;
   withLogs?: boolean;
-  deviceType?: DeviceType;
+  deviceType?: DeviceType; // android only
   preloadInfo?: PreloadInfo;
   crashReporting?: boolean;
+  probablyUnhandledCrashReporting?: boolean; // ios only
+  ignoredCrashSignals?: Array<number>; // ios only
   handleFirstActivationAsUpdat?: boolean;
-  additionalConfig?: Map<string,string>;
+  additionalConfig?: Map<string,string>; // android only
   anrMonitoring?: boolean;
   anrMonitoringTimeout?: number;
   appBuildNumber?: number;
@@ -31,7 +33,10 @@ export type AppmetricaConfig = {
   nativeCrashReporting?: boolean;
   revenueAutoTrackingEnabled?: boolean;
   withSessionTimeout?: number;
+  sessionsAutoTrackingEnabled?: boolean;
   withUserProfileID?: string;
+  applicationNotRespondingWatchdogInterval?: number; // ios only
+  applicationNotRespondingPingInterval?: number // ios only
 };
 
 export type LocationInfo = {
@@ -39,12 +44,12 @@ export type LocationInfo = {
   longitude: number;
   altitude?: number;
   accuracy?: number;
+  verticalAccuracy?: number; 
   course?: number;
   speed?: number;
   timestamp?: number;
 };
 
-export type DeviceTypeTest = 'CAR' | 'TV' | 'PHONE' | 'TABLET';
 export type DeviceType = 'car' | 'tv' | 'phone' | 'tablet';
 
 export type PreloadInfo = {

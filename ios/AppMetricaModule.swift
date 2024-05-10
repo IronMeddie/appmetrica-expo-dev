@@ -18,24 +18,44 @@ public class AppMetricaModule: Module {
     }
 
   Function("reportEvent") { (name: String, jsonValue: String?) in
-    var attributes: [AnyHashable : Any]?
-    if let jsonValue {
-    do {
-        if let data = jsonValue.data(using: .utf8) {
-            attributes = try JSONSerialization.jsonObject(
-                with: data,
-                options: []) as? [AnyHashable : Any]
-        }
-    } catch {
-      NSLog("Invalid attributesJson to report to AppMetrica %", jsonValue);
-    }
-      AppMetrica.reportEvent(name: name, parameters: attributes, onFailure: nil)
-    }
+      AppMetrica.reportEvent(name: name, parameters: jsonToDictionary(json: jsonValue ?? ""), onFailure: nil)
   }
 
   Function("sendEventsBuffer") { () -> Void in
       AppMetrica.sendEventsBuffer()
   }
+
+  Function("clearAppEnvironment") { () -> Void in
+      AppMetrica.clearAppEnvironment()
+  }
+
+    Function("putAppEnvironmentValue") { (key: String, value: String?) in
+      // AppMetrica.putAppEnvironmentValue(key, value)
+    }
+
+    // Function("getDeviceId") { () -> Void in
+    //   AppMetrica.getDeviceId()
+    // }
+
+    Function("resumeSession") { () -> Void in
+      AppMetrica.resumeSession()
+    }
+
+    Function("pauseSession") { () -> Void in
+      AppMetrica.pauseSession()
+    }
+
+    Function("reportAppOpen") { (link: String) in
+      // AppMetrica.reportAppOpen(link)
+    }
+
+    Function("reportError") { (identifier: String, message: String?) in
+      // AppMetrica.crashes().reportError(identifier,message)
+    }
+
+    Function("setDataSendingEnabled") { (enabled: Bool) in
+      AppMetrica.setDataSendingEnabled(enabled)
+    }
     
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     // Constants([
@@ -68,4 +88,15 @@ public class AppMetricaModule: Module {
     //   }
     // }
   }
+}
+
+func jsonToDictionary(json: String) -> [String: Any]? {
+  if let data = json.data(using: .utf8) {
+    do {
+      return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+    } catch {
+      print(error.localizedDescription)
+    }
+  }
+  return nil
 }

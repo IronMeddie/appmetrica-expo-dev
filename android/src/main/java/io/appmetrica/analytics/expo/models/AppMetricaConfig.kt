@@ -1,4 +1,4 @@
-package io.appmetrica.analytics.expo
+package io.appmetrica.analytics.expo.models
 
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
@@ -75,6 +75,9 @@ class AppMetricaConfig: Record {
     val revenueAutoTrackingEnabled: Boolean? = null
 
     @Field
+    val sessionsAutoTrackingEnabled: Boolean? = null
+
+    @Field
     val withSessionTimeout: Int? = null
 
     @Field
@@ -101,6 +104,7 @@ class AppMetricaConfig: Record {
                 preloadInfo?.let { withPreloadInfo(it.toPreloadInfo()) }
                 revenueAutoTrackingEnabled?.let { withRevenueAutoTrackingEnabled(it) }
                 withSessionTimeout?.let { withSessionTimeout(it) }
+                sessionsAutoTrackingEnabled?.let { withSessionsAutoTrackingEnabled(it) }
                 errorEnvironmentValue?.forEach {
                     withErrorEnvironmentValue(it.key,it.value)
                 }
@@ -118,8 +122,6 @@ class AppMetricaConfig: Record {
             }.build()
     }
 }
-
-
 
 
 

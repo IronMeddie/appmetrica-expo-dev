@@ -1,8 +1,9 @@
-package io.appmetrica.analytics.expo
+package io.appmetrica.analytics.expo.models
 
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
 import io.appmetrica.analytics.AdType
+import io.appmetrica.analytics.AdRevenue
 import java.util.Currency
 
 
@@ -37,10 +38,10 @@ class AdRevenue: Record {
     @Field
     val precision: String? = null
 
-    fun toAdRevenuee(): io.appmetrica.analytics.AdRevenue {
+    fun toAdRevenue(): AdRevenue {
         val price: Double = price
         val currency: String = currency
-        return io.appmetrica.analytics.AdRevenue.newBuilder(price, Currency.getInstance(currency))
+        return AdRevenue.newBuilder(price, Currency.getInstance(currency))
             .withAdNetwork(adNetwork)
             .withAdType(toAdType(adType))
             .withAdUnitId(adUnitID)

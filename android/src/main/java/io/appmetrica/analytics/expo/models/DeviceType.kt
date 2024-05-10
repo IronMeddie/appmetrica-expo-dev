@@ -1,4 +1,4 @@
-package io.appmetrica.analytics.expo
+package io.appmetrica.analytics.expo.models
 
 import expo.modules.kotlin.types.Enumerable
 import io.appmetrica.analytics.PredefinedDeviceTypes

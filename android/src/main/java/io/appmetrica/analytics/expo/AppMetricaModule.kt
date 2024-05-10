@@ -3,6 +3,7 @@ package io.appmetrica.analytics.expo
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import io.appmetrica.analytics.AppMetrica
+import io.appmetrica.analytics.expo.models.AppMetricaConfig
 
 class AppMetricaModule : Module() {
   // Each module class must implement the definition function. The definition consists of components
@@ -13,7 +14,7 @@ class AppMetricaModule : Module() {
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
     // The module will be accessible from `requireNativeModule('AppMetrica')` in JavaScript.
     Name("AppMetrica")
-    Function("activate") { config: io.appmetrica.analytics.expo.AppMetricaConfig ->
+    Function("activate") { config: AppMetricaConfig ->
       AppMetrica.activate(appContext.reactContext?.applicationContext ?: throw ApplicationNotAttached(), config.toConfig())
     }
 

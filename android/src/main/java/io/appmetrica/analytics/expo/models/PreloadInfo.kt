@@ -1,4 +1,4 @@
-package io.appmetrica.analytics.expo
+package io.appmetrica.analytics.expo.models
 
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
