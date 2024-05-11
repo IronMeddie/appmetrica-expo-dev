@@ -1,3 +1,4 @@
 package io.appmetrica.analytics.expo
 
-class ApplicationNotAttached(message: String = "cant get Application.Context"): Exception(message)
+class CantGetContext(message: String = "cant get context"): Exception(message)
+class ActivityNotAttached(message: String = "cant get activity"): Exception(message)

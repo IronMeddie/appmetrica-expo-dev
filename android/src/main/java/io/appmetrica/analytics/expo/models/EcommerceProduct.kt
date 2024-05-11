@@ -6,33 +6,33 @@ import io.appmetrica.analytics.ecommerce.ECommerceProduct
 
 class EcommerceProduct: Record {
     @Field
-    val name: String = ""
-
-    @Field
     val sku: String = ""
 
     @Field
-    val actualPrice: EcommercePrice = EcommercePrice()
+    val name: String? = null
 
     @Field
-    val originalPrice: EcommercePrice = EcommercePrice()
+    val actualPrice: EcommercePrice? = null
 
     @Field
-    val categoriesPath: List<String> = emptyList()
+    val originalPrice: EcommercePrice? = null
 
     @Field
-    val promocodes: List<String> = emptyList()
+    val categoriesPath: List<String>? = null
 
     @Field
-    val payload: Map<String,String> = emptyMap()
+    val promocodes: List<String>? = null
+
+    @Field
+    val payload: Map<String,String>? = null
 
     fun toProduct(): ECommerceProduct {
         return ECommerceProduct(sku)
             .setName(name)
             .setPayload(payload)
             .setCategoriesPath(categoriesPath)
-            .setActualPrice(actualPrice.toEcommercPrice())
-            .setOriginalPrice(originalPrice.toEcommercPrice())
+            .setActualPrice(actualPrice?.toEcommercPrice())
+            .setOriginalPrice(originalPrice?.toEcommercPrice())
             .setPromocodes(promocodes)
     }
 }

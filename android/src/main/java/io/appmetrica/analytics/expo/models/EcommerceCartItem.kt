@@ -10,16 +10,16 @@ class EcommerceCartItem : Record {
     val product: EcommerceProduct = EcommerceProduct()
 
     @Field
-    val quantity: Double = 0.0
+    val quantity: Double = 1.0
 
     @Field
     val price: EcommercePrice = EcommercePrice()
 
     @Field
-    val referrer: EcommerceReferrer = EcommerceReferrer()
+    val referrer: EcommerceReferrer? = null
 
     fun toCartItem(): ECommerceCartItem {
         return ECommerceCartItem(product.toProduct(), price.toEcommercPrice(), quantity)
-            .setReferrer(referrer.toReferrer())
+            .setReferrer(referrer?.toReferrer())
     }
 }

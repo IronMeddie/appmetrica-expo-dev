@@ -56,3 +56,30 @@ export type PreloadInfo = {
   trackingID: string;
   additionalParams?: Map<string,string>;
 };
+
+export type AdType = "native" | "banner" | "mrec" | "interstitial" | "rewarded" | "other";
+
+export type StartupParams = "appmetrica_device_id_hash" | "appmetrica_uuid" | "appmetrica_device_id"
+
+export type AdRevenue = {
+  price: number;
+  currency: string;
+  payload?: Map<string, string>;
+  adType?: AdType;
+  adNetwork?: string;
+  adPlacementID?: string;
+  adPlacementName?: string;
+  adUnitID?: string;
+  adUnitName?: string;
+  precision: string;
+}
+
+export type Revenue = {
+  price: number;
+  currency: string;
+  payload?: string;
+  productID?: string;
+  quantity?: number;
+  receiptData?: string;
+  signature: string;
+}

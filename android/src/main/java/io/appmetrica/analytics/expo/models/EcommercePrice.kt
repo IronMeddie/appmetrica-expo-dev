@@ -8,10 +8,10 @@ class EcommercePrice: Record {
     val amount: EcommerceAmount = EcommerceAmount()
 
     @Field
-    val internalComponents: List<EcommerceAmount> = emptyList()
+    val internalComponents: List<EcommerceAmount>? = null
 
     fun toEcommercPrice(): ECommercePrice {
         return ECommercePrice(amount.toEcommerceAmount())
-            .setInternalComponents(internalComponents.map { it.toEcommerceAmount() })
+            .setInternalComponents(internalComponents?.map { it.toEcommerceAmount() })
     }
 }

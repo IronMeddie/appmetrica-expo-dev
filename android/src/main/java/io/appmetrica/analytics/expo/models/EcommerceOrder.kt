@@ -12,7 +12,7 @@ class EcommerceOrder : Record {
     val cartItems: List<EcommerceCartItem> = emptyList()
 
     @Field
-    val payload: Map<String, String> = emptyMap()
+    val payload: Map<String, String>? = null
     fun toOrder(): ECommerceOrder {
         return ECommerceOrder(identifier, cartItems.map { it.toCartItem() })
             .setPayload(payload)

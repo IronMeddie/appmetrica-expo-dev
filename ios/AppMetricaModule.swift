@@ -1,5 +1,6 @@
 import ExpoModulesCore
 import AppMetricaCore
+import AppMetricaCrashes
 
 public class AppMetricaModule: Module {
   // Each module class must implement the definition function. The definition consists of components
@@ -9,53 +10,54 @@ public class AppMetricaModule: Module {
     // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
     // The module will be accessible from `requireNativeModule('AppMetrica')` in JavaScript.
-    Name("AppMetrica")
+      Name("AppMetrica")
 
+      Function("activate") { (config: AppMetricaConfig) in
+          let configuration = config.toConfig()
+          let crashesConfig = config.toCrashConfig()
+          AppMetrica.activate(with: configuration)
+          AppMetricaCrashes.crashes().setConfiguration(crashesConfig)
+      }
+      Function("reportEvent") { (name: String, jsonValue: String?) in
+          AppMetrica.reportEvent(name: name, parameters: jsonToDictionary(json: jsonValue ?? ""), onFailure: nil)
+      }
+      Function("sendEventsBuffer") { () -> Void in
+          AppMetrica.sendEventsBuffer()
+      }
+      Function("clearAppEnvironment") { () -> Void in
+          AppMetrica.clearAppEnvironment()
+      }
+      Function("putAppEnvironmentValue") { (key: String, value: String?) in
+          AppMetrica.setAppEnvironment(value, forKey: key)
+      }
+      Function("getDeviceId") {
+         return AppMetrica.deviceID
+      }
 
-  Function("activate") { (config: AppMetricaConfig) in
-      let configuration = AppMetricaConfiguration(apiKey: config.apiKey)
-      AppMetrica.activate(with: configuration!)
-    }
+      Function("resumeSession") { () -> Void in
+          AppMetrica.resumeSession()
+      }
 
-  Function("reportEvent") { (name: String, jsonValue: String?) in
-      AppMetrica.reportEvent(name: name, parameters: jsonToDictionary(json: jsonValue ?? ""), onFailure: nil)
-  }
-
-  Function("sendEventsBuffer") { () -> Void in
-      AppMetrica.sendEventsBuffer()
-  }
-
-  Function("clearAppEnvironment") { () -> Void in
-      AppMetrica.clearAppEnvironment()
-  }
-
-    Function("putAppEnvironmentValue") { (key: String, value: String?) in
-      // AppMetrica.putAppEnvironmentValue(key, value)
-    }
-
-    // Function("getDeviceId") { () -> Void in
-    //   AppMetrica.getDeviceId()
-    // }
-
-    Function("resumeSession") { () -> Void in
-      AppMetrica.resumeSession()
-    }
-
-    Function("pauseSession") { () -> Void in
-      AppMetrica.pauseSession()
-    }
-
-    Function("reportAppOpen") { (link: String) in
-      // AppMetrica.reportAppOpen(link)
-    }
-
-    Function("reportError") { (identifier: String, message: String?) in
-      // AppMetrica.crashes().reportError(identifier,message)
-    }
-
-    Function("setDataSendingEnabled") { (enabled: Bool) in
-      AppMetrica.setDataSendingEnabled(enabled)
-    }
+      Function("pauseSession") { () -> Void in
+          AppMetrica.pauseSession()
+      }
+      Function("reportAppOpen") { (link: String) in
+          AppMetrica.trackOpeningURL(URL(string: link)!)
+      }
+      Function("reportError") { (identifier: String, message: String?) in
+          let error = AppMetricaError(identifier: identifier, message: message, parameters: nil)
+          AppMetricaCrashes.crashes().report(error: error)
+      }
+      Function("setDataSendingEnabled") { (enabled: Bool) in
+          AppMetrica.setDataSendingEnabled(enabled)
+      }
+      Function("getLibraryVersion") {
+          AppMetrica.libraryVersion
+      }
+      Function("getLibraryApiLevel") {
+          ""
+      }
+      
     
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     // Constants([

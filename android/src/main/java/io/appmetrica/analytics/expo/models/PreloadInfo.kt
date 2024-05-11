@@ -9,11 +9,11 @@ class PreloadInfo: Record {
     val trackingID: String = ""
 
     @Field
-    val additionalParams: Map<String,String> = emptyMap()
+    val additionalParams: Map<String,String>? = null
 
     fun toPreloadInfo(): PreloadInfo {
         val preloadInfo = PreloadInfo.newBuilder(trackingID)
-        additionalParams.forEach {
+        additionalParams?.forEach {
             preloadInfo.setAdditionalParams(it.key,it.value)
         }
         return preloadInfo.build()

@@ -2,6 +2,7 @@ package io.appmetrica.analytics.expo.models
 
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
+import expo.modules.kotlin.types.Enumerable
 import io.appmetrica.analytics.AdType
 import io.appmetrica.analytics.AdRevenue
 import java.util.Currency
